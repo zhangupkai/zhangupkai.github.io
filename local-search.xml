@@ -4,6 +4,35 @@
   
   
   <entry>
+    <title>学习Java之前</title>
+    <link href="/2023/04/12/%E5%AD%A6%E4%B9%A0Java%E4%B9%8B%E5%89%8D/"/>
+    <url>/2023/04/12/%E5%AD%A6%E4%B9%A0Java%E4%B9%8B%E5%89%8D/</url>
+    
+    <content type="html"><![CDATA[<h3 id="JDK、JRE与JVM"><a href="#JDK、JRE与JVM" class="headerlink" title="JDK、JRE与JVM"></a>JDK、JRE与JVM</h3><p>JDK（Java Development Kit）是用于开发 Java 应用程序的软件环境。里面包含运行时环境（JRE）和其他 Java 开发所需的工具，比如说解释器（java）、编译器（javac）、文档生成器（javadoc）等等。</p><p>JRE（Java Runtime Environment）是用于运行 Java 应用程序的软件环境。也就是说，如果只想运行 Java 程序而不需要开发 Java 程序的话，只需要安装 JRE 就可以了。</p><p>JVM (Java Virtual Machine) ，也就是 Java 虚拟机，由一套字节码指令集、一组寄存器、一个栈、一个垃圾回收堆和一个存储方法域等组成，屏蔽了不同操作系统（macOS、Windows、Linux）的差异性，使得 Java 能够“一次编译，到处运行”。</p><p><img src="/2023/04/12/%E5%AD%A6%E4%B9%A0Java%E4%B9%8B%E5%89%8D/jdk_jre_jvm.png" alt="JDK、JRE与JVM的关系"></p><h3 id="Windows下使用命令行安装JDK"><a href="#Windows下使用命令行安装JDK" class="headerlink" title="Windows下使用命令行安装JDK"></a>Windows下使用命令行安装JDK</h3><p>使用 <strong>Chocolatey</strong>，这是一个 Windows 下的命令行软件管理器，可以方便开发者像在 Linux 下使用 yum 命令来安装软件，或者像在 macOS 下使用 brew 命令来安装软件，非常酷炫。</p><blockquote><ul><li>官方地址：<a href="https://chocolatey.org/">https://chocolatey.org/</a></li><li>安装文档：<a href="https://chocolatey.org/install#individual">https://chocolatey.org/install#individual</a></li><li>Github:  <a href="https://github.com/chocolatey/choco">https://github.com/chocolatey/choco</a></li></ul></blockquote><p>安装 Chocolatey 的步骤如下：</p><p>第一步，以管理员的身份打开 powershell 命令行。</p><p>第二步，执行以下命令：</p><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">Set</span>-ExecutionPolicy Bypass -Scope Process -Force; [<span class="hljs-keyword">System</span>.Net.ServicePointManager]::SecurityProtocol = [<span class="hljs-keyword">System</span>.Net.ServicePointManager]::SecurityProtocol -bor <span class="hljs-number">3072</span>; iex ((<span class="hljs-built_in">New</span>-<span class="hljs-keyword">Object</span> <span class="hljs-keyword">System</span>.Net.WebClient).DownloadString(<span class="hljs-string">&#x27;https://community.chocolatey.org/install.ps1&#x27;</span>))<br></code></pre></td></tr></table></figure><p>安装完成后输入 <code>choco</code> 命令确认是否安装成功。</p><p><img src="/2023/04/12/%E5%AD%A6%E4%B9%A0Java%E4%B9%8B%E5%89%8D/chocolatey_install_complete.png" alt="Chocolatey 安装完成"></p><p>几个常用的操作命令：</p><ul><li>choco search xxx，查找 xxx 安装包</li><li>choco info xxx，查看 xxx 安装包信息</li><li>choco install xxx，安装 xxx 软件</li><li>choco upgrade xxx，升级 xxx 软件</li><li>choco uninstall xxx， 卸载 xxx 软件</li></ul><p>如何知道 chocolatey 仓库中都有哪些安装包可用呢？</p><p>可以通过上面提到的命令行的方式，也可以访问官方仓库进行筛选。</p><blockquote><p><a href="https://community.chocolatey.org/packages">https://community.chocolatey.org/packages</a></p></blockquote>]]></content>
+    
+    
+    <categories>
+      
+      <category>Java核心</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>JDK</tag>
+      
+      <tag>JVM</tag>
+      
+      <tag>Chocolatey</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>程序员的自我修养（学习方法论）</title>
     <link href="/2023/04/12/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB%EF%BC%88%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95%E8%AE%BA%EF%BC%89/"/>
     <url>/2023/04/12/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB%EF%BC%88%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95%E8%AE%BA%EF%BC%89/</url>
