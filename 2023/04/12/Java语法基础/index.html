@@ -16,27 +16,21 @@
   <meta name="author" content="Kai">
   <meta name="keywords" content="">
   
-    <meta name="description" content="JDK、JRE与JVMJDK（Java Development Kit）是用于开发 Java 应用程序的软件环境。里面包含运行时环境（JRE）和其他 Java 开发所需的工具，比如说解释器（java）、编译器（javac）、文档生成器（javadoc）等等。 JRE（Java Runtime Environment）是用于运行 Java 应用程序的软件环境。也就是说，如果只想运行 Java 程序而">
+    <meta name="description" content="Java 数据类型 基本数据类型：包括 boolean、char、byte、short、int、long、float 和 double，共 8 种。     数据类型 默认值 大小 取值范围（包含上下界）    boolean false 1 比特 true 和 false   char ‘\u0000’ 2 字节 \u0000（十进制等效值为 0）~\uffff（即为 65535）   byte">
 <meta property="og:type" content="article">
-<meta property="og:title" content="学习Java之前">
-<meta property="og:url" content="http://example.com/2023/04/12/%E5%AD%A6%E4%B9%A0Java%E4%B9%8B%E5%89%8D/index.html">
+<meta property="og:title" content="Java语法基础">
+<meta property="og:url" content="http://example.com/2023/04/12/Java%E8%AF%AD%E6%B3%95%E5%9F%BA%E7%A1%80/index.html">
 <meta property="og:site_name" content="K的笔记">
-<meta property="og:description" content="JDK、JRE与JVMJDK（Java Development Kit）是用于开发 Java 应用程序的软件环境。里面包含运行时环境（JRE）和其他 Java 开发所需的工具，比如说解释器（java）、编译器（javac）、文档生成器（javadoc）等等。 JRE（Java Runtime Environment）是用于运行 Java 应用程序的软件环境。也就是说，如果只想运行 Java 程序而">
+<meta property="og:description" content="Java 数据类型 基本数据类型：包括 boolean、char、byte、short、int、long、float 和 double，共 8 种。     数据类型 默认值 大小 取值范围（包含上下界）    boolean false 1 比特 true 和 false   char ‘\u0000’ 2 字节 \u0000（十进制等效值为 0）~\uffff（即为 65535）   byte">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2023/04/12/%E5%AD%A6%E4%B9%A0Java%E4%B9%8B%E5%89%8D/jdk_jre_jvm.png">
-<meta property="og:image" content="http://example.com/2023/04/12/%E5%AD%A6%E4%B9%A0Java%E4%B9%8B%E5%89%8D/chocolatey_install_complete.png">
-<meta property="article:published_time" content="2023-04-12T05:52:58.000Z">
-<meta property="article:modified_time" content="2023-04-12T06:32:02.939Z">
+<meta property="article:published_time" content="2023-04-12T07:13:46.000Z">
+<meta property="article:modified_time" content="2023-04-12T15:46:27.247Z">
 <meta property="article:author" content="Kai">
-<meta property="article:tag" content="JDK">
-<meta property="article:tag" content="JVM">
-<meta property="article:tag" content="Chocolatey">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/2023/04/12/%E5%AD%A6%E4%B9%A0Java%E4%B9%8B%E5%89%8D/jdk_jre_jvm.png">
   
   
   
-  <title>学习Java之前 - K的笔记</title>
+  <title>Java语法基础 - K的笔记</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -219,7 +213,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="学习Java之前"></span>
+            <span id="subtitle" data-typed-text="Java语法基础"></span>
           
         </div>
 
@@ -230,7 +224,7 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-04-12 13:52" pubdate>
+        <time datetime="2023-04-12 15:13" pubdate>
           2023年4月12日 下午
         </time>
       </span>
@@ -242,7 +236,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.1k 字
+          870 字
         
       </span>
     
@@ -253,7 +247,7 @@
         
         
         
-          10 分钟
+          8 分钟
         
       </span>
     
@@ -299,43 +293,88 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">学习Java之前</h1>
+            <h1 style="display: none">Java语法基础</h1>
             
             
               <div class="markdown-body">
                 
-                <h3 id="JDK、JRE与JVM"><a href="#JDK、JRE与JVM" class="headerlink" title="JDK、JRE与JVM"></a>JDK、JRE与JVM</h3><p>JDK（Java Development Kit）是用于开发 Java 应用程序的软件环境。里面包含运行时环境（JRE）和其他 Java 开发所需的工具，比如说解释器（java）、编译器（javac）、文档生成器（javadoc）等等。</p>
-<p>JRE（Java Runtime Environment）是用于运行 Java 应用程序的软件环境。也就是说，如果只想运行 Java 程序而不需要开发 Java 程序的话，只需要安装 JRE 就可以了。</p>
-<p>JVM (Java Virtual Machine) ，也就是 Java 虚拟机，由一套字节码指令集、一组寄存器、一个栈、一个垃圾回收堆和一个存储方法域等组成，屏蔽了不同操作系统（macOS、Windows、Linux）的差异性，使得 Java 能够“一次编译，到处运行”。</p>
-<p><img src="/2023/04/12/%E5%AD%A6%E4%B9%A0Java%E4%B9%8B%E5%89%8D/jdk_jre_jvm.png" srcset="/img/loading.gif" lazyload alt="JDK、JRE与JVM的关系"></p>
-<h3 id="Windows下使用命令行安装JDK"><a href="#Windows下使用命令行安装JDK" class="headerlink" title="Windows下使用命令行安装JDK"></a>Windows下使用命令行安装JDK</h3><p>使用 <strong>Chocolatey</strong>，这是一个 Windows 下的命令行软件管理器，可以方便开发者像在 Linux 下使用 yum 命令来安装软件，或者像在 macOS 下使用 brew 命令来安装软件，非常酷炫。</p>
-<blockquote>
-<ul>
-<li>官方地址：<a target="_blank" rel="noopener" href="https://chocolatey.org/">https://chocolatey.org/</a></li>
-<li>安装文档：<a target="_blank" rel="noopener" href="https://chocolatey.org/install#individual">https://chocolatey.org/install#individual</a></li>
-<li>Github:  <a target="_blank" rel="noopener" href="https://github.com/chocolatey/choco">https://github.com/chocolatey/choco</a></li>
+                <h3 id="Java-数据类型"><a href="#Java-数据类型" class="headerlink" title="Java 数据类型"></a>Java 数据类型</h3><ul>
+<li>基本数据类型：包括 boolean、char、byte、short、int、long、float 和 double，共 8 种。</li>
 </ul>
-</blockquote>
-<p>安装 Chocolatey 的步骤如下：</p>
-<p>第一步，以管理员的身份打开 powershell 命令行。</p>
-<p>第二步，执行以下命令：</p>
-<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">Set</span>-ExecutionPolicy Bypass -Scope Process -Force; [<span class="hljs-keyword">System</span>.Net.ServicePointManager]::SecurityProtocol = [<span class="hljs-keyword">System</span>.Net.ServicePointManager]::SecurityProtocol -bor <span class="hljs-number">3072</span>; iex ((<span class="hljs-built_in">New</span>-<span class="hljs-keyword">Object</span> <span class="hljs-keyword">System</span>.Net.WebClient).DownloadString(<span class="hljs-string">&#x27;https://community.chocolatey.org/install.ps1&#x27;</span>))<br></code></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th>默认值</th>
+<th>大小</th>
+<th>取值范围（包含上下界）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>boolean</td>
+<td>false</td>
+<td>1 比特</td>
+<td>true 和 false</td>
+</tr>
+<tr>
+<td>char</td>
+<td>‘\u0000’</td>
+<td>2 字节</td>
+<td><strong>\u0000</strong>（十进制等效值为 0）~<strong>\uffff</strong>（即为 65535）</td>
+</tr>
+<tr>
+<td>byte</td>
+<td>0</td>
+<td>1 字节</td>
+<td>-128 ~ 127</td>
+</tr>
+<tr>
+<td>short</td>
+<td>0</td>
+<td>2 字节</td>
+<td>-32768 ~ 32767</td>
+</tr>
+<tr>
+<td>int</td>
+<td>0</td>
+<td>4 字节</td>
+<td>-2^31 ~ 2^31 - 1</td>
+</tr>
+<tr>
+<td>long</td>
+<td>0L</td>
+<td>8 字节</td>
+<td>-2^63 ~ 2^63 -1</td>
+</tr>
+<tr>
+<td>float</td>
+<td>0.0f</td>
+<td>4 字节</td>
+<td>-</td>
+</tr>
+<tr>
+<td>double</td>
+<td>0.0</td>
+<td>8 字节</td>
+<td>-</td>
+</tr>
+</tbody></table>
+<ul>
+<li>引用数据类型：除了基本数据类型以外的类型，都是所谓的<strong>引用类型</strong>。常见的有数组、class（也就是类），以及接口（指向的是实现接口的类的对象）。</li>
+</ul>
+<h4 id="int-和-char-类型互转"><a href="#int-和-char-类型互转" class="headerlink" title="int 和 char 类型互转"></a>int 和 char 类型互转</h4><p>1）可以通过强制类型转换将整型 int 转换为字符 char。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">int</span> <span class="hljs-variable">value_int</span> <span class="hljs-operator">=</span> <span class="hljs-number">65</span>;<br><span class="hljs-type">char</span> <span class="hljs-variable">value_char</span>  <span class="hljs-operator">=</span> (<span class="hljs-type">char</span>) value_int;<br>System.out.println(value_char);<br></code></pre></td></tr></table></figure>
 
-<p>安装完成后输入 <code>choco</code> 命令确认是否安装成功。</p>
-<p><img src="/2023/04/12/%E5%AD%A6%E4%B9%A0Java%E4%B9%8B%E5%89%8D/chocolatey_install_complete.png" srcset="/img/loading.gif" lazyload alt="Chocolatey 安装完成"></p>
-<p>几个常用的操作命令：</p>
-<ul>
-<li>choco search xxx，查找 xxx 安装包</li>
-<li>choco info xxx，查看 xxx 安装包信息</li>
-<li>choco install xxx，安装 xxx 软件</li>
-<li>choco upgrade xxx，升级 xxx 软件</li>
-<li>choco uninstall xxx， 卸载 xxx 软件</li>
-</ul>
-<p>如何知道 chocolatey 仓库中都有哪些安装包可用呢？</p>
-<p>可以通过上面提到的命令行的方式，也可以访问官方仓库进行筛选。</p>
-<blockquote>
-<p><a target="_blank" rel="noopener" href="https://community.chocolatey.org/packages">https://community.chocolatey.org/packages</a></p>
-</blockquote>
+<p>输出 <code>A</code> （其 ASCII 值可通过整数 65 表示）。</p>
+<p>2） 可以使用 <code>Character.forDigit()</code> 方法将整型 int 转换为字符 char，参数 radix 为基数，十进制为 10，十六进制为 16。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">int</span> <span class="hljs-variable">radix</span> <span class="hljs-operator">=</span> <span class="hljs-number">10</span>;<br><span class="hljs-type">int</span> <span class="hljs-variable">value_int</span> <span class="hljs-operator">=</span> <span class="hljs-number">6</span>;<br><span class="hljs-type">char</span> <span class="hljs-variable">value_char</span> <span class="hljs-operator">=</span> Character.forDigit(value_int , radix);<br>System.out.println(value_char);<br></code></pre></td></tr></table></figure>
+
+<p>3）使用 int 的包装器类型 Integer 的 <code>toString()</code> 方法+String 的 <code>charAt()</code> 方法转成 char。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">int</span> <span class="hljs-variable">value_int</span> <span class="hljs-operator">=</span> <span class="hljs-number">1</span>;<br><span class="hljs-type">char</span> <span class="hljs-variable">value_char</span> <span class="hljs-operator">=</span> Integer.toString(value_int).charAt(<span class="hljs-number">0</span>);<br>System.out.println(value_char);<br></code></pre></td></tr></table></figure>
+
+<p>4）简单的 char 转 int，可以直接赋值（发生了自动类型转换）。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">int</span> <span class="hljs-variable">a</span> <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;a&#x27;</span>;<br></code></pre></td></tr></table></figure>
+
 
                 
               </div>
@@ -366,17 +405,6 @@
     </div>
   
   
-    <div class="post-meta">
-      <i class="iconfont icon-tags"></i>
-      
-        <a href="/tags/JDK/">#JDK</a>
-      
-        <a href="/tags/JVM/">#JVM</a>
-      
-        <a href="/tags/Chocolatey/">#Chocolatey</a>
-      
-    </div>
-  
 </div>
 
 
@@ -385,8 +413,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>学习Java之前</div>
-      <div>http://example.com/2023/04/12/学习Java之前/</div>
+      <div>Java语法基础</div>
+      <div>http://example.com/2023/04/12/Java语法基础/</div>
     </div>
     <div class="license-meta">
       
@@ -430,18 +458,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/04/12/Java%E8%AF%AD%E6%B3%95%E5%9F%BA%E7%A1%80/" title="Java语法基础">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Java语法基础</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/04/12/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB%EF%BC%88%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95%E8%AE%BA%EF%BC%89/" title="程序员的自我修养（学习方法论）">
-                        <span class="hidden-mobile">程序员的自我修养（学习方法论）</span>
+                      <a href="/2023/04/12/%E5%AD%A6%E4%B9%A0Java%E4%B9%8B%E5%89%8D/" title="学习Java之前">
+                        <span class="hidden-mobile">学习Java之前</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

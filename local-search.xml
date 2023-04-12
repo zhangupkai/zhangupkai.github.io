@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>Java语法基础</title>
+    <link href="/2023/04/12/Java%E8%AF%AD%E6%B3%95%E5%9F%BA%E7%A1%80/"/>
+    <url>/2023/04/12/Java%E8%AF%AD%E6%B3%95%E5%9F%BA%E7%A1%80/</url>
+    
+    <content type="html"><![CDATA[<h3 id="Java-数据类型"><a href="#Java-数据类型" class="headerlink" title="Java 数据类型"></a>Java 数据类型</h3><ul><li>基本数据类型：包括 boolean、char、byte、short、int、long、float 和 double，共 8 种。</li></ul><table><thead><tr><th>数据类型</th><th>默认值</th><th>大小</th><th>取值范围（包含上下界）</th></tr></thead><tbody><tr><td>boolean</td><td>false</td><td>1 比特</td><td>true 和 false</td></tr><tr><td>char</td><td>‘\u0000’</td><td>2 字节</td><td><strong>\u0000</strong>（十进制等效值为 0）~<strong>\uffff</strong>（即为 65535）</td></tr><tr><td>byte</td><td>0</td><td>1 字节</td><td>-128 ~ 127</td></tr><tr><td>short</td><td>0</td><td>2 字节</td><td>-32768 ~ 32767</td></tr><tr><td>int</td><td>0</td><td>4 字节</td><td>-2^31 ~ 2^31 - 1</td></tr><tr><td>long</td><td>0L</td><td>8 字节</td><td>-2^63 ~ 2^63 -1</td></tr><tr><td>float</td><td>0.0f</td><td>4 字节</td><td>-</td></tr><tr><td>double</td><td>0.0</td><td>8 字节</td><td>-</td></tr></tbody></table><ul><li>引用数据类型：除了基本数据类型以外的类型，都是所谓的<strong>引用类型</strong>。常见的有数组、class（也就是类），以及接口（指向的是实现接口的类的对象）。</li></ul><h4 id="int-和-char-类型互转"><a href="#int-和-char-类型互转" class="headerlink" title="int 和 char 类型互转"></a>int 和 char 类型互转</h4><p>1）可以通过强制类型转换将整型 int 转换为字符 char。</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">int</span> <span class="hljs-variable">value_int</span> <span class="hljs-operator">=</span> <span class="hljs-number">65</span>;<br><span class="hljs-type">char</span> <span class="hljs-variable">value_char</span>  <span class="hljs-operator">=</span> (<span class="hljs-type">char</span>) value_int;<br>System.out.println(value_char);<br></code></pre></td></tr></table></figure><p>输出 <code>A</code> （其 ASCII 值可通过整数 65 表示）。</p><p>2） 可以使用 <code>Character.forDigit()</code> 方法将整型 int 转换为字符 char，参数 radix 为基数，十进制为 10，十六进制为 16。</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">int</span> <span class="hljs-variable">radix</span> <span class="hljs-operator">=</span> <span class="hljs-number">10</span>;<br><span class="hljs-type">int</span> <span class="hljs-variable">value_int</span> <span class="hljs-operator">=</span> <span class="hljs-number">6</span>;<br><span class="hljs-type">char</span> <span class="hljs-variable">value_char</span> <span class="hljs-operator">=</span> Character.forDigit(value_int , radix);<br>System.out.println(value_char);<br></code></pre></td></tr></table></figure><p>3）使用 int 的包装器类型 Integer 的 <code>toString()</code> 方法+String 的 <code>charAt()</code> 方法转成 char。</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">int</span> <span class="hljs-variable">value_int</span> <span class="hljs-operator">=</span> <span class="hljs-number">1</span>;<br><span class="hljs-type">char</span> <span class="hljs-variable">value_char</span> <span class="hljs-operator">=</span> Integer.toString(value_int).charAt(<span class="hljs-number">0</span>);<br>System.out.println(value_char);<br></code></pre></td></tr></table></figure><p>4）简单的 char 转 int，可以直接赋值（发生了自动类型转换）。</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">int</span> <span class="hljs-variable">a</span> <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;a&#x27;</span>;<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>Java核心</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>学习Java之前</title>
     <link href="/2023/04/12/%E5%AD%A6%E4%B9%A0Java%E4%B9%8B%E5%89%8D/"/>
     <url>/2023/04/12/%E5%AD%A6%E4%B9%A0Java%E4%B9%8B%E5%89%8D/</url>
