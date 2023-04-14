@@ -24,8 +24,9 @@
 <meta property="og:description" content="Java 数组数组转换成 List通过 Arrays 类的 asList() 方法： 1234Integer[] anArray &#x3D; new Integer[]&amp;#123;1, 2, 3, 4, 5&amp;#125;;List&lt;Integer&gt; aList &#x3D; Arrays.asList(anArray);System.out.println(aList.getClass());&#x2F;&#x2F; 输出：">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2023/04/13/Java%E6%A0%B8%E5%BF%83%EF%BC%882%EF%BC%89-%20%E6%95%B0%E7%BB%84%E5%92%8C%E5%AD%97%E7%AC%A6%E4%B8%B2/pojo_print.png">
+<meta property="og:image" content="http://example.com/2023/04/13/Java%E6%A0%B8%E5%BF%83%EF%BC%882%EF%BC%89-%20%E6%95%B0%E7%BB%84%E5%92%8C%E5%AD%97%E7%AC%A6%E4%B8%B2/string_intern.png">
 <meta property="article:published_time" content="2023-04-13T13:39:31.000Z">
-<meta property="article:modified_time" content="2023-04-14T09:38:37.239Z">
+<meta property="article:modified_time" content="2023-04-14T13:02:59.630Z">
 <meta property="article:author" content="Kai">
 <meta property="article:tag" content="Java字符串编码">
 <meta property="article:tag" content="Java字符串常量池">
@@ -240,7 +241,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.6k 字
+          4.2k 字
         
       </span>
     
@@ -251,7 +252,7 @@
         
         
         
-          30 分钟
+          36 分钟
         
       </span>
     
@@ -349,7 +350,7 @@
 <p>然而，UTF-8 的最小单位是 1 个字节，对于 Java 来说，这就是一种变长的编码了，那对于 String 这种有随机访问方法（如 charAt，subString 方法等）的类来说，就很不方便。如果字符串中的每个字符占用的内存是不定长的，那么进行随机访问的时候，就需要从头开始数每个字符的长度，才能找到想要的字符。</p>
 <h3 id="Java-字符串常量池"><a href="#Java-字符串常量池" class="headerlink" title="Java 字符串常量池"></a>Java 字符串常量池</h3><h4 id="new-String-方法创建了几个对象"><a href="#new-String-方法创建了几个对象" class="headerlink" title="new String() 方法创建了几个对象"></a>new String() 方法创建了几个对象</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">String</span> <span class="hljs-variable">s</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>(<span class="hljs-string">&quot;二哥&quot;</span>);<br></code></pre></td></tr></table></figure>
 
-<p>使用 new 关键字创建一个字符串对象时，Java 虚拟机会先在字符串常量池中查找有没有“二哥”这个字符串对象。</p>
+<p>使用 <strong>new 关键字创建一个字符串对象</strong>时，Java 虚拟机会先在字符串常量池中查找有没有“二哥”这个字符串对象。</p>
 <ul>
 <li>如果有，就不会在字符串常量池中创建“二哥”这个对象了，直接在堆中创建一个“二哥”的字符串对象，然后将堆中这个“二哥”的对象地址返回赋值给变量 s。</li>
 <li>如果没有，先在字符串常量池中创建一个“二哥”的字符串对象，然后再在堆中创建一个“二哥”的字符串对象，然后将堆中这个“二哥”的字符串对象地址返回赋值给变量 s。</li>
@@ -357,12 +358,26 @@
 <p>由于字符串的使用频率实在是太高了，所以 Java 虚拟机为了提高性能和减少内存开销，在创建字符串对象的时候进行了一些优化，特意为字符串开辟了一块空间——字符串常量池。</p>
 <h4 id="字符串常量池的作用"><a href="#字符串常量池的作用" class="headerlink" title="字符串常量池的作用"></a>字符串常量池的作用</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">String</span> <span class="hljs-variable">s</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;二哥&quot;</span>;<br></code></pre></td></tr></table></figure>
 
-<p>使用双引号的方式创建字符串对象时，Java 虚拟机会先在字符串常量池中查找有没有“二哥”这个字符串对象。</p>
+<p>使用<strong>双引号的方式创建字符串对象</strong>时，Java 虚拟机会先在字符串常量池中查找有没有“二哥”这个字符串对象。</p>
 <ul>
 <li>如果有，则不创建任何对象，直接将字符串常量池中这个“二哥”的对象地址返回，赋给变量 s。</li>
 <li>如果没有，在字符串常量池中创建“二哥”这个对象，然后将其地址返回，赋给变量 s。</li>
 </ul>
 <p>总结：new 的方式始终会创建一个对象，不管字符串的内容是否已经存在，而双引号的方式会重复利用字符串常量池中已经存在的对象。</p>
+<h3 id="String-intern-方法"><a href="#String-intern-方法" class="headerlink" title="String.intern() 方法"></a>String.intern() 方法</h3> <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">String</span> <span class="hljs-variable">s1</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>(<span class="hljs-string">&quot;二哥&quot;</span>) + <span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>(<span class="hljs-string">&quot;三妹&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<p>对于没有使用双引号声明的字符串对象，如果想把 s1 的内容也放入字符串常量池的话，可以调用 <code>String.intern()</code> 方法来完成。</p>
+<p>注意：从 Java 7 开始，字符串常量池从永生代移动到了堆中，该变化直接影响了 <code>String.intern()</code> 方法的执行策略。</p>
+<ul>
+<li>Java 7 之前，执行 <code>String.intern()</code> 方法的时候，不管对象在堆中是否已经创建，字符串常量池中仍然会创建一个内容完全相同的新对象。</li>
+<li>Java 7 及之后，由于字符串常量池放在了堆中，执行 <code>String.intern()</code> 方法的时候，如果对象在堆中已经创建了，字符串常量池中就不需要再创建新的对象了，而是直接保存堆中对象的引用，也就节省了一部分的内存空间。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">String</span> <span class="hljs-variable">s1</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>(<span class="hljs-string">&quot;二哥三妹&quot;</span>);<br><span class="hljs-type">String</span> <span class="hljs-variable">s2</span> <span class="hljs-operator">=</span> s1.intern();<br>System.out.println(s1 == s2);<br><span class="hljs-comment">// 输出：false</span><br></code></pre></td></tr></table></figure>
+
+<p>第一行代码：字符串常量池中先创建一个“二哥三妹”的对象，然后堆中再创建一个“二哥三妹”的对象，s1 引用的是堆中的对象。</p>
+<p>第二行代码：<code>intern()</code> 方法从字符串常量池中查找“二哥三妹”这个字符串是否存在，此时时存在的，所以 s2 引用的时字符串常量池中的对象。</p>
+<p>因此，s1 和 s2 的引用地址时不同的，一个来自堆，一个来自字符串常量池，所以输出 false。</p>
+<p><img src="/2023/04/13/Java%E6%A0%B8%E5%BF%83%EF%BC%882%EF%BC%89-%20%E6%95%B0%E7%BB%84%E5%92%8C%E5%AD%97%E7%AC%A6%E4%B8%B2/string_intern.png" srcset="/img/loading.gif" lazyload alt="String.intern 方法 引用示例1"></p>
 
                 
               </div>
