@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>Git日常操作</title>
+    <link href="/2023/04/19/Git%E6%97%A5%E5%B8%B8%E6%93%8D%E4%BD%9C/"/>
+    <url>/2023/04/19/Git%E6%97%A5%E5%B8%B8%E6%93%8D%E4%BD%9C/</url>
+    
+    <content type="html"><![CDATA[<h3 id="将-Fork-至自己仓库的项目代码同步至本地，并更新到自己的仓库"><a href="#将-Fork-至自己仓库的项目代码同步至本地，并更新到自己的仓库" class="headerlink" title="将 Fork 至自己仓库的项目代码同步至本地，并更新到自己的仓库"></a>将 Fork 至自己仓库的项目代码同步至本地，并更新到自己的仓库</h3><blockquote><p><a href="https://blog.csdn.net/j754379117/article/details/72890717">github如何更新fork的代码</a></p></blockquote><ol><li>增加源分支都自己项目的远程分支列表，并命名原来的项目分支，此处命名为 zcs</li></ol><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs git">git remote add zcs https://gitee.com/FE-zhuchaoshi/haowuquan-op.git<br></code></pre></td></tr></table></figure><ol start="2"><li>查看远程分支列表：origin 为自己仓库的远程分支， zcs 为 fork 的项目源分支</li></ol><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs git">git remote -v<br>origin  https://gitee.com/zhangshangkai/haowuquan-op.git (fetch)<br>origin  https://gitee.com/zhangshangkai/haowuquan-op.git (push) <br>zcs     https://gitee.com/FE-zhuchaoshi/haowuquan-op.git (fetch)<br>zcs     https://gitee.com/FE-zhuchaoshi/haowuquan-op.git (push)<br></code></pre></td></tr></table></figure><ol start="3"><li>从 fork 的项目源分支拉取最新的代码，此处为 zcs 的 master 分支</li></ol><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs crmsh">git pull zcs <span class="hljs-keyword">master</span> <span class="hljs-title">--rebase</span><br></code></pre></td></tr></table></figure><ol start="4"><li>代码合并后推送到自己仓库的远程分支</li></ol><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs git">git push origin master 或 git push<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>Git</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Java核心（3）- 面向对象编程</title>
     <link href="/2023/04/15/Java%E6%A0%B8%E5%BF%83%EF%BC%883%EF%BC%89-%20%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/"/>
     <url>/2023/04/15/Java%E6%A0%B8%E5%BF%83%EF%BC%883%EF%BC%89-%20%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/</url>

@@ -16,24 +16,21 @@
   <meta name="author" content="Kai">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Java 可变参数 可变参数必须要在参数列表的最后一位。当使用可变参数的时候，实际上是先创建了一个数组，该数组的大小就是可变参数的个数，然后将参数放入数组当中，再将数组传递给被调用的方法。 Java 访问权限修饰符 默认访问你权限（包访问权限）：没有任何修饰符的权限就是包访问权限，当前包的所有类都可以访问这个类的方法或变量。 private：这个类的方法或变量只能在该类中被访问。 protecte">
+    <meta name="description" content="将 Fork 至自己仓库的项目代码同步至本地，并更新到自己的仓库 github如何更新fork的代码   增加源分支都自己项目的远程分支列表，并命名原来的项目分支，此处命名为 zcs  1git remote add zcs https:&#x2F;&#x2F;gitee.com&#x2F;FE-zhuchaoshi&#x2F;haowuquan-op.git   查看远程分支列表：origin 为自己仓库的远程分支， zcs 为 fo">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java核心（3）- 面向对象编程">
-<meta property="og:url" content="http://example.com/2023/04/15/Java%E6%A0%B8%E5%BF%83%EF%BC%883%EF%BC%89-%20%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/index.html">
+<meta property="og:title" content="Git日常操作">
+<meta property="og:url" content="http://example.com/2023/04/19/Git%E6%97%A5%E5%B8%B8%E6%93%8D%E4%BD%9C/index.html">
 <meta property="og:site_name" content="K的笔记">
-<meta property="og:description" content="Java 可变参数 可变参数必须要在参数列表的最后一位。当使用可变参数的时候，实际上是先创建了一个数组，该数组的大小就是可变参数的个数，然后将参数放入数组当中，再将数组传递给被调用的方法。 Java 访问权限修饰符 默认访问你权限（包访问权限）：没有任何修饰符的权限就是包访问权限，当前包的所有类都可以访问这个类的方法或变量。 private：这个类的方法或变量只能在该类中被访问。 protecte">
+<meta property="og:description" content="将 Fork 至自己仓库的项目代码同步至本地，并更新到自己的仓库 github如何更新fork的代码   增加源分支都自己项目的远程分支列表，并命名原来的项目分支，此处命名为 zcs  1git remote add zcs https:&#x2F;&#x2F;gitee.com&#x2F;FE-zhuchaoshi&#x2F;haowuquan-op.git   查看远程分支列表：origin 为自己仓库的远程分支， zcs 为 fo">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2023/04/15/Java%E6%A0%B8%E5%BF%83%EF%BC%883%EF%BC%89-%20%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/java_varables.png">
-<meta property="og:image" content="http://example.com/2023/04/15/Java%E6%A0%B8%E5%BF%83%EF%BC%883%EF%BC%89-%20%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/code_initialization.png">
-<meta property="article:published_time" content="2023-04-15T04:53:46.000Z">
-<meta property="article:modified_time" content="2023-04-15T15:08:14.996Z">
+<meta property="article:published_time" content="2023-04-19T06:39:29.000Z">
+<meta property="article:modified_time" content="2023-04-19T06:56:04.895Z">
 <meta property="article:author" content="Kai">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/2023/04/15/Java%E6%A0%B8%E5%BF%83%EF%BC%883%EF%BC%89-%20%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/java_varables.png">
   
   
   
-  <title>Java核心（3）- 面向对象编程 - K的笔记</title>
+  <title>Git日常操作 - K的笔记</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -216,7 +213,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Java核心（3）- 面向对象编程"></span>
+            <span id="subtitle" data-typed-text="Git日常操作"></span>
           
         </div>
 
@@ -227,8 +224,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-04-15 12:53" pubdate>
-          2023年4月15日 下午
+        <time datetime="2023-04-19 14:39" pubdate>
+          2023年4月19日 下午
         </time>
       </span>
     
@@ -239,7 +236,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          688 字
+          544 字
         
       </span>
     
@@ -250,7 +247,7 @@
         
         
         
-          6 分钟
+          5 分钟
         
       </span>
     
@@ -296,64 +293,35 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Java核心（3）- 面向对象编程</h1>
+            <h1 style="display: none">Git日常操作</h1>
             
             
               <div class="markdown-body">
                 
-                <h3 id="Java-可变参数"><a href="#Java-可变参数" class="headerlink" title="Java 可变参数"></a>Java 可变参数</h3><p><img src="/2023/04/15/Java%E6%A0%B8%E5%BF%83%EF%BC%883%EF%BC%89-%20%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/java_varables.png" srcset="/img/loading.gif" lazyload alt="Java 可选参数"></p>
-<p>可变参数必须要在参数列表的最后一位。<strong>当使用可变参数的时候，实际上是先创建了一个数组，该数组的大小就是可变参数的个数，然后将参数放入数组当中，再将数组传递给被调用的方法</strong>。</p>
-<h3 id="Java-访问权限修饰符"><a href="#Java-访问权限修饰符" class="headerlink" title="Java 访问权限修饰符"></a>Java 访问权限修饰符</h3><ul>
-<li>默认访问你权限（包访问权限）：没有任何修饰符的权限就是包访问权限，当前包的所有类都可以访问这个类的方法或变量。</li>
-<li>private：这个类的方法或变量只能在该类中被访问。</li>
-<li>protected：对于同一个包的类，这个类的方法或变量可以被访问；对于不同包的类，只有继承该类的类才可以访问该类的方法或变量。</li>
-<li>public：这个类的方法或变量在任何地方都是可见。</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>修饰符</th>
-<th>类内部</th>
-<th>同一个包下</th>
-<th>子类</th>
-<th>任何地方</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>public</td>
-<td>Yes</td>
-<td>Yes</td>
-<td>Yes</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td>protected</td>
-<td>Yes</td>
-<td>Yes</td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td>包访问权限</td>
-<td>Yes</td>
-<td>Yes</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>public</td>
-<td>Yes</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h3 id="Java-代码初始块"><a href="#Java-代码初始块" class="headerlink" title="Java 代码初始块"></a>Java 代码初始块</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Car</span> &#123;<br>    Car() &#123;<br>        System.out.println(<span class="hljs-string">&quot;构造方法&quot;</span>);<br>    &#125;<br><br>    &#123;<br>        System.out.println(<span class="hljs-string">&quot;代码初始化块&quot;</span>);<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-keyword">new</span> <span class="hljs-title class_">Car</span>();<br>    &#125;<br>&#125;<br><span class="hljs-comment">/* 输出：</span><br><span class="hljs-comment">代码初始化块</span><br><span class="hljs-comment">构造方法</span><br><span class="hljs-comment">*/</span><br></code></pre></td></tr></table></figure>
+                <h3 id="将-Fork-至自己仓库的项目代码同步至本地，并更新到自己的仓库"><a href="#将-Fork-至自己仓库的项目代码同步至本地，并更新到自己的仓库" class="headerlink" title="将 Fork 至自己仓库的项目代码同步至本地，并更新到自己的仓库"></a>将 Fork 至自己仓库的项目代码同步至本地，并更新到自己的仓库</h3><blockquote>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/j754379117/article/details/72890717">github如何更新fork的代码</a></p>
+</blockquote>
+<ol>
+<li>增加源分支都自己项目的远程分支列表，并命名原来的项目分支，此处命名为 zcs</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs git">git remote add zcs https://gitee.com/FE-zhuchaoshi/haowuquan-op.git<br></code></pre></td></tr></table></figure>
 
-<p>从输出结果看，貌似是代码初始化块执行得更早，实际上并非如此。</p>
-<p><img src="/2023/04/15/Java%E6%A0%B8%E5%BF%83%EF%BC%883%EF%BC%89-%20%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/code_initialization.png" srcset="/img/loading.gif" lazyload alt="代码初始化块执行时机"></p>
-<p>实际上，构造方法在执行的时候会把代码初始化块放在构造方法中其他代码之前，所以，先看到了“代码初始化块”，后看到了“构造方法”。</p>
-<h3 id="Java-接口"><a href="#Java-接口" class="headerlink" title="Java 接口"></a>Java 接口</h3><h4 id="定义接口"><a href="#定义接口" class="headerlink" title="定义接口"></a>定义接口</h4>
+<ol start="2">
+<li>查看远程分支列表：origin 为自己仓库的远程分支， zcs 为 fork 的项目源分支</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs git">git remote -v<br>origin  https://gitee.com/zhangshangkai/haowuquan-op.git (fetch)<br>origin  https://gitee.com/zhangshangkai/haowuquan-op.git (push) <br>zcs     https://gitee.com/FE-zhuchaoshi/haowuquan-op.git (fetch)<br>zcs     https://gitee.com/FE-zhuchaoshi/haowuquan-op.git (push)<br></code></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>从 fork 的项目源分支拉取最新的代码，此处为 zcs 的 master 分支</li>
+</ol>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs crmsh">git pull zcs <span class="hljs-keyword">master</span> <span class="hljs-title">--rebase</span><br></code></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>代码合并后推送到自己仓库的远程分支</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs git">git push origin master 或 git push<br></code></pre></td></tr></table></figure>
+
+
                 
               </div>
             
@@ -371,7 +339,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/Java%E6%A0%B8%E5%BF%83/" class="category-chain-item">Java核心</a>
+  <a href="/categories/Git/" class="category-chain-item">Git</a>
   
   
 
@@ -391,8 +359,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Java核心（3）- 面向对象编程</div>
-      <div>http://example.com/2023/04/15/Java核心（3）- 面向对象编程/</div>
+      <div>Git日常操作</div>
+      <div>http://example.com/2023/04/19/Git日常操作/</div>
     </div>
     <div class="license-meta">
       
@@ -404,7 +372,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年4月15日</div>
+          <div>2023年4月19日</div>
         </div>
       
       
@@ -436,18 +404,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/04/19/Git%E6%97%A5%E5%B8%B8%E6%93%8D%E4%BD%9C/" title="Git日常操作">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Git日常操作</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/04/13/Java%E6%A0%B8%E5%BF%83%EF%BC%882%EF%BC%89-%20%E6%95%B0%E7%BB%84%E5%92%8C%E5%AD%97%E7%AC%A6%E4%B8%B2/" title="Java核心（2）- 数组和字符串">
-                        <span class="hidden-mobile">Java核心（2）- 数组和字符串</span>
+                      <a href="/2023/04/15/Java%E6%A0%B8%E5%BF%83%EF%BC%883%EF%BC%89-%20%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/" title="Java核心（3）- 面向对象编程">
+                        <span class="hidden-mobile">Java核心（3）- 面向对象编程</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
