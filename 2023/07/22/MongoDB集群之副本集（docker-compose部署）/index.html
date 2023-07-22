@@ -1,0 +1,770 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Kai">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="MongoDB 3 副本集群（Docker-compose部署）（单机模式）如何通过副本集模式连接?  生成keyFile MongoDB使用keyfile认证，副本集中的每个mongod实例使用keyfile内容作为认证其他成员的共享密码。mongod实例只有拥有正确的keyfile才可以加入副本集。 keyFile的内容必须是6到1024个字符的长度，且副本集所有成员的keyFile内容必须">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MongoDB集群之副本集（docker-compose部署）">
+<meta property="og:url" content="http://example.com/2023/07/22/MongoDB%E9%9B%86%E7%BE%A4%E4%B9%8B%E5%89%AF%E6%9C%AC%E9%9B%86%EF%BC%88docker-compose%E9%83%A8%E7%BD%B2%EF%BC%89/index.html">
+<meta property="og:site_name" content="K的笔记">
+<meta property="og:description" content="MongoDB 3 副本集群（Docker-compose部署）（单机模式）如何通过副本集模式连接?  生成keyFile MongoDB使用keyfile认证，副本集中的每个mongod实例使用keyfile内容作为认证其他成员的共享密码。mongod实例只有拥有正确的keyfile才可以加入副本集。 keyFile的内容必须是6到1024个字符的长度，且副本集所有成员的keyFile内容必须">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-07-22T08:46:00.000Z">
+<meta property="article:modified_time" content="2023-07-22T09:34:20.357Z">
+<meta property="article:author" content="Kai">
+<meta property="article:tag" content="MongoDB">
+<meta property="article:tag" content="docker">
+<meta property="article:tag" content="docker-compose">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>MongoDB集群之副本集（docker-compose部署） - K的笔记</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"dbTU2RYYb0FqaJw4lPKkXpJK-gzGzoHsz","app_key":"zpx9alnt9bVwzaayxGpZQpfH","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>K的笔记</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="MongoDB集群之副本集（docker-compose部署）"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-07-22 16:46" pubdate>
+          2023年7月22日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          44 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">MongoDB集群之副本集（docker-compose部署）</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/evescn/p/16203350.html">MongoDB 3 副本集群（Docker-compose部署）（单机模式）</a><br><a target="_blank" rel="noopener" href="https://docs.ucloud.cn/udb-mongodb/quick/con-replicaset?id=%E5%A6%82%E4%BD%95%E9%80%9A%E8%BF%87%E5%89%AF%E6%9C%AC%E9%9B%86%E6%A8%A1%E5%BC%8F%E8%BF%9E%E6%8E%A5">如何通过副本集模式连接?</a></p>
+</blockquote>
+<h3 id="生成keyFile"><a href="#生成keyFile" class="headerlink" title="生成keyFile"></a>生成keyFile</h3><ul>
+<li>MongoDB使用keyfile认证，副本集中的每个mongod实例使用keyfile内容作为认证其他成员的共享密码。mongod实例只有拥有正确的keyfile才可以加入副本集。</li>
+<li>keyFile的内容必须是6到1024个字符的长度，且副本集所有成员的keyFile内容必须相同。</li>
+<li>可以使用任意方法生成keyFile。例如，如下操作使用openssl生成复杂的随机的1024个字符串。然后使用chmod修改文件权限，只给文件拥有者提供读权限。这是MongoDB官方推荐keyFile的生成方式。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">## 400权限是要保证安全性，否则mongod启动会报错</span><br>openssl rand -<span class="hljs-built_in">base64</span> 756 &gt; mongodb.key<br><span class="hljs-built_in">chmod</span> 400 mongodb.key<br></code></pre></td></tr></table></figure>
+
+<h3 id="docker-compose-yml-文件信息"><a href="#docker-compose-yml-文件信息" class="headerlink" title="docker-compose.yml 文件信息"></a><code>docker-compose.yml</code> 文件信息</h3><h4 id="服务器1：包含1个主节点和2个从节点"><a href="#服务器1：包含1个主节点和2个从节点" class="headerlink" title="服务器1：包含1个主节点和2个从节点"></a>服务器1：包含1个主节点和2个从节点</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">version:</span> <span class="hljs-string">&#x27;3&#x27;</span><br><br><span class="hljs-attr">services:</span><br>  <span class="hljs-attr">mongo_primary:</span><br>    <span class="hljs-attr">image:</span> <span class="hljs-string">mongo:4.2</span><br>    <span class="hljs-attr">container_name:</span> <span class="hljs-string">mongo_primary</span><br>    <span class="hljs-attr">restart:</span> <span class="hljs-string">always</span><br>    <span class="hljs-attr">ports:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&#x27;27017:27017&#x27;</span><br>    <span class="hljs-attr">volumes:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">/etc/localtime:/etc/localtime</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">./data/mongodb/mongo_primary/data:/data/db</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">./data/mongodb/mongo_primary/configdb:/data/configdb</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">./data/mongodb/mongo_primary/mongodb.key:/mongodb.key</span><br>    <span class="hljs-attr">environment:</span><br>      <span class="hljs-attr">MONGO_INITDB_ROOT_USERNAME:</span> <span class="hljs-string">root</span><br>      <span class="hljs-attr">MONGO_INITDB_ROOT_PASSWORD:</span> <span class="hljs-string">password</span><br>    <span class="hljs-attr">networks:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">mongoNet</span><br>    <span class="hljs-attr">command:</span> <span class="hljs-string">mongod</span> <span class="hljs-string">--replSet</span> <span class="hljs-string">rs0</span> <span class="hljs-string">--keyFile</span> <span class="hljs-string">/mongodb.key</span><br>    <span class="hljs-attr">entrypoint:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">bash</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">-c</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">|</span><br><span class="hljs-string">        chmod 400 /mongodb.key</span><br><span class="hljs-string">        chown 999:999 /mongodb.key</span><br><span class="hljs-string">        exec docker-entrypoint.sh $$@</span><br><span class="hljs-string"></span>  <span class="hljs-attr">mongo_secondary1:</span><br>    <span class="hljs-attr">image:</span> <span class="hljs-string">mongo:4.2</span><br>    <span class="hljs-attr">container_name:</span> <span class="hljs-string">mongo_secondary1</span><br>    <span class="hljs-attr">restart:</span> <span class="hljs-string">always</span><br>    <span class="hljs-attr">ports:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&#x27;27018:27017&#x27;</span><br>    <span class="hljs-attr">volumes:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">/etc/localtime:/etc/localtime</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">./data/mongodb/mongo_secondary1/data:/data/db</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">./data/mongodb/mongo_secondary1/configdb:/data/configdb</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">./data/mongodb/mongo_secondary1/mongodb.key:/mongodb.key</span><br>    <span class="hljs-attr">environment:</span><br>      <span class="hljs-attr">MONGO_INITDB_ROOT_USERNAME:</span> <span class="hljs-string">root</span><br>      <span class="hljs-attr">MONGO_INITDB_ROOT_PASSWORD:</span> <span class="hljs-string">password</span><br>    <span class="hljs-attr">networks:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">mongoNet</span><br>    <span class="hljs-attr">command:</span> <span class="hljs-string">mongod</span> <span class="hljs-string">--replSet</span> <span class="hljs-string">rs0</span> <span class="hljs-string">--keyFile</span> <span class="hljs-string">/mongodb.key</span><br>    <span class="hljs-attr">entrypoint:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">bash</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">-c</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">|</span><br><span class="hljs-string">        chmod 400 /mongodb.key</span><br><span class="hljs-string">        chown 999:999 /mongodb.key</span><br><span class="hljs-string">        exec docker-entrypoint.sh $$@</span><br><span class="hljs-string"></span>  <span class="hljs-attr">mongo_secondary2:</span><br>    <span class="hljs-attr">image:</span> <span class="hljs-string">mongo:4.2</span><br>    <span class="hljs-attr">container_name:</span> <span class="hljs-string">mongo_secondary2</span><br>    <span class="hljs-attr">restart:</span> <span class="hljs-string">always</span><br>    <span class="hljs-attr">ports:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&#x27;27019:27017&#x27;</span><br>    <span class="hljs-attr">volumes:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">/etc/localtime:/etc/localtime</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">./data/mongodb/mongo_secondary2/data:/data/db</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">./data/mongodb/mongo_secondary2/configdb:/data/configdb</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">./data/mongodb/mongo_secondary2/mongodb.key:/mongodb.key</span><br>    <span class="hljs-attr">environment:</span><br>      <span class="hljs-attr">MONGO_INITDB_ROOT_USERNAME:</span> <span class="hljs-string">root</span><br>      <span class="hljs-attr">MONGO_INITDB_ROOT_PASSWORD:</span> <span class="hljs-string">password</span><br>    <span class="hljs-attr">networks:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">mongoNet</span><br>    <span class="hljs-attr">command:</span> <span class="hljs-string">mongod</span> <span class="hljs-string">--replSet</span> <span class="hljs-string">rs0</span> <span class="hljs-string">--keyFile</span> <span class="hljs-string">/mongodb.key</span><br>    <span class="hljs-attr">entrypoint:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">bash</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">-c</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">|</span><br><span class="hljs-string">        chmod 400 /mongodb.key</span><br><span class="hljs-string">        chown 999:999 /mongodb.key</span><br><span class="hljs-string">        exec docker-entrypoint.sh $$@</span><br><span class="hljs-string"></span><span class="hljs-attr">networks:</span><br>  <span class="hljs-attr">mongoNet:</span><br>    <span class="hljs-attr">driver:</span> <span class="hljs-string">bridge</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="服务器2：包含2个从节点"><a href="#服务器2：包含2个从节点" class="headerlink" title="服务器2：包含2个从节点"></a>服务器2：包含2个从节点</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">version:</span> <span class="hljs-string">&#x27;3&#x27;</span><br><br><span class="hljs-attr">services:</span><br>  <span class="hljs-attr">mongo_secondary_release1:</span><br>    <span class="hljs-attr">image:</span> <span class="hljs-string">mongo:4.2</span><br>    <span class="hljs-attr">container_name:</span> <span class="hljs-string">mongo_secondary_release1</span><br>    <span class="hljs-attr">restart:</span> <span class="hljs-string">always</span><br>    <span class="hljs-attr">ports:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&#x27;27018:27017&#x27;</span><br>    <span class="hljs-attr">volumes:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">/etc/localtime:/etc/localtime</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">./data/mongodb/mongo_secondary_release1/data:/data/db</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">./data/mongodb/mongo_secondary_release1/configdb:/data/configdb</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">./data/mongodb/mongo_secondary_release1/mongodb.key:/mongodb.key</span><br>    <span class="hljs-attr">environment:</span><br>      <span class="hljs-attr">MONGO_INITDB_ROOT_USERNAME:</span> <span class="hljs-string">root</span><br>      <span class="hljs-attr">MONGO_INITDB_ROOT_PASSWORD:</span> <span class="hljs-string">password</span><br>    <span class="hljs-attr">networks:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">mongoNet</span><br>    <span class="hljs-attr">command:</span> <span class="hljs-string">mongod</span> <span class="hljs-string">--replSet</span> <span class="hljs-string">rs0</span> <span class="hljs-string">--keyFile</span> <span class="hljs-string">/mongodb.key</span><br>    <span class="hljs-attr">entrypoint:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">bash</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">-c</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">|</span><br><span class="hljs-string">        chmod 400 /mongodb.key</span><br><span class="hljs-string">        chown 999:999 /mongodb.key</span><br><span class="hljs-string">        exec docker-entrypoint.sh $$@</span><br><span class="hljs-string"></span>  <span class="hljs-attr">mongo_secondary_release2:</span><br>    <span class="hljs-attr">image:</span> <span class="hljs-string">mongo:4.2</span><br>    <span class="hljs-attr">container_name:</span> <span class="hljs-string">mongo_secondary_release2</span><br>    <span class="hljs-attr">restart:</span> <span class="hljs-string">always</span><br>    <span class="hljs-attr">ports:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&#x27;27019:27017&#x27;</span><br>    <span class="hljs-attr">volumes:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">/etc/localtime:/etc/localtime</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">./data/mongodb/mongo_secondary_release2/data:/data/db</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">./data/mongodb/mongo_secondary_release2/configdb:/data/configdb</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">./data/mongodb/mongo_secondary_release2/mongodb.key:/mongodb.key</span><br>    <span class="hljs-attr">environment:</span><br>      <span class="hljs-attr">MONGO_INITDB_ROOT_USERNAME:</span> <span class="hljs-string">root</span><br>      <span class="hljs-attr">MONGO_INITDB_ROOT_PASSWORD:</span> <span class="hljs-string">password</span><br>    <span class="hljs-attr">networks:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">mongoNet</span><br>    <span class="hljs-attr">command:</span> <span class="hljs-string">mongod</span> <span class="hljs-string">--replSet</span> <span class="hljs-string">rs0</span> <span class="hljs-string">--keyFile</span> <span class="hljs-string">/mongodb.key</span><br>    <span class="hljs-attr">entrypoint:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">bash</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">-c</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">|</span><br><span class="hljs-string">        chmod 400 /mongodb.key</span><br><span class="hljs-string">        chown 999:999 /mongodb.key</span><br><span class="hljs-string">        exec docker-entrypoint.sh $$@</span><br><span class="hljs-string"></span><span class="hljs-attr">networks:</span><br>  <span class="hljs-attr">mongoNet:</span><br>    <span class="hljs-attr">driver:</span> <span class="hljs-string">bridge</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="配置宿主机文件及目录"><a href="#配置宿主机文件及目录" class="headerlink" title="配置宿主机文件及目录"></a>配置宿主机文件及目录</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 以主节点为例，其余几个从节点同理</span><br><span class="hljs-built_in">mkdir</span> data/mongodb/mongo_secondary_primary/data<br><span class="hljs-built_in">mkdir</span> data/mongodb/mongo_secondary_primary/configdb<br><span class="hljs-built_in">cp</span> mongodb.key data/mongodb/mongo_secondary_primary/<br></code></pre></td></tr></table></figure>
+
+<h3 id="配置集群"><a href="#配置集群" class="headerlink" title="配置集群"></a>配置集群</h3><h4 id="进入主节点的-Mongo-容器并登录"><a href="#进入主节点的-Mongo-容器并登录" class="headerlink" title="进入主节点的 Mongo 容器并登录"></a>进入主节点的 <code>Mongo</code> 容器并登录</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker <span class="hljs-built_in">exec</span> -it mongo_primary bash<br><span class="hljs-comment"># 登录Mongo</span><br>mongo -u root -p password<br></code></pre></td></tr></table></figure>
+
+<h4 id="用户认证测试"><a href="#用户认证测试" class="headerlink" title="用户认证测试"></a>用户认证测试</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 认证</span><br>&gt; use admin<br>&gt; db.auth(<span class="hljs-string">&#x27;root&#x27;</span>, <span class="hljs-string">&#x27;password&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>成功返回1，失败返回0。</p>
+<h3 id="使用配置文件初始化集群"><a href="#使用配置文件初始化集群" class="headerlink" title="使用配置文件初始化集群"></a>使用配置文件初始化集群</h3><h4 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h4><p>服务器 1 和服务器 2 的ip地址分别为 <code>192.168.0.1</code> 和 <code>192.168.0.2</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash">&gt; config=&#123;_id:<span class="hljs-string">&quot;rs0&quot;</span>,members:[ <br>&#123;_id:0,host:<span class="hljs-string">&quot;192.168.0.1:27017&quot;</span>&#125;, <br>&#123;_id:1,host:<span class="hljs-string">&quot;192.168.0.1:27018&quot;</span>&#125;, <br>&#123;_id:2,host:<span class="hljs-string">&quot;192.168.0.1:27019&quot;</span>&#125;,<br>&#123;_id:3,host:<span class="hljs-string">&quot;192.168.0.2:27018&quot;</span>&#125;,<br>&#123;_id:4,host:<span class="hljs-string">&quot;192.168.0.2:27019&quot;</span>&#125;<br>] &#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="初始化集群"><a href="#初始化集群" class="headerlink" title="初始化集群"></a>初始化集群</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">&gt; rs.initiate(config)<br></code></pre></td></tr></table></figure>
+
+<h4 id="增长-mongo-primary-和-mongo-secondary1-的权重"><a href="#增长-mongo-primary-和-mongo-secondary1-的权重" class="headerlink" title="增长 mongo_primary 和 mongo_secondary1 的权重"></a>增长 <code>mongo_primary</code> 和 <code>mongo_secondary1</code> 的权重</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash">&gt; cfg = rs.conf()<br><br><span class="hljs-comment"># 修改权重</span><br>&gt; cfg.members[0].priority=5<br>&gt; cfg.members[1].priority=3<br><br><span class="hljs-comment"># 从新配置</span><br>&gt; rs.reconfig(cfg)<br></code></pre></td></tr></table></figure>
+
+<h4 id="验证副本集"><a href="#验证副本集" class="headerlink" title="验证副本集"></a>验证副本集</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 切换节点查看同步状态：</span><br>&gt; rs.printReplicationInfo()<br><span class="hljs-comment"># 仅当建立了集合后副节点才会进行同步</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="连接-Mongo-副本集"><a href="#连接-Mongo-副本集" class="headerlink" title="连接 Mongo 副本集"></a>连接 <code>Mongo</code> 副本集</h3><p>副本集模式连接指的是把副本集看作一个整体，自动探测现在的主节点并进行连接的模式。这样能够做到，无论现在副本集哪个是主节点，客户端都可以连到正确的节点上，并且切换后不需要额外修改客户端的程序。同时，结合 <code>readPreference</code> 参数，能够做类似写操作在主库进行，读操作在从库进行的”读写分离“功能。</p>
+<h4 id="连接-url"><a href="#连接-url" class="headerlink" title="连接 url"></a>连接 url</h4><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">mongodb</span>://root:password@<span class="hljs-number">192.168.0.1</span>,<span class="hljs-number">192.168.0.1</span>/?replicaSet=rs0&amp;readPreference=secondaryPreferred<br></code></pre></td></tr></table></figure>
+
+<p>其中，<code>replicaSet</code> 为副本集名称，<code>readPreference</code> 参数能够实现写操作在主库进行，读操作在从库进行的”读写分离“功能。 它有这么几个值：</p>
+<ul>
+<li><code>primary</code>: 读请求全部走primary (secondary节点纯粹是做高可用的容灾使用)：这个是最经典的连接方法，把副本集当作一个纯粹的高可用集群使用，而且肯定能保证读到的数据是最准确的。</li>
+<li><code>secondary</code>: 写请求全部走primary，读请求全部走secondary。这个是把副本集作为读写分离集群来使用。他能提高读操作的吞吐（通过添加多个secondary的方法）。但是它的缺点是可能读到的数据和主库是不一致的。所以在对于数据一致性有较高的场景下慎用。</li>
+<li><code>primaryPreferred</code>: 优先走primary，只有少数情况才去secondary读取数据。</li>
+<li><code>secondaryPreferred</code>: 优先走secondary，只有少数情况才去primary读取数据。</li>
+<li><code>nearest</code>：根据客户端到各个节点的延时选择节点：如果延时在某个阈值内，随机选择节点；如果所有节点延时在某个阈值外，选择延时最小的。</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/MongoDB/" class="category-chain-item">MongoDB</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/MongoDB/">#MongoDB</a>
+      
+        <a href="/tags/docker/">#docker</a>
+      
+        <a href="/tags/docker-compose/">#docker-compose</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>MongoDB集群之副本集（docker-compose部署）</div>
+      <div>http://example.com/2023/07/22/MongoDB集群之副本集（docker-compose部署）/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Kai</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年7月22日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/04/19/Git%E6%97%A5%E5%B8%B8%E6%93%8D%E4%BD%9C/" title="Git日常操作">
+                        <span class="hidden-mobile">Git日常操作</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"dbTU2RYYb0FqaJw4lPKkXpJK-gzGzoHsz","appKey":"zpx9alnt9bVwzaayxGpZQpfH","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
