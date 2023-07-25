@@ -24,7 +24,7 @@
 <meta property="og:description" content="MongoDB 3 副本集群（Docker-compose部署）（单机模式）如何通过副本集模式连接?  生成keyFile MongoDB使用keyfile认证，副本集中的每个mongod实例使用keyfile内容作为认证其他成员的共享密码。mongod实例只有拥有正确的keyfile才可以加入副本集。 keyFile的内容必须是6到1024个字符的长度，且副本集所有成员的keyFile内容必须">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-07-22T08:46:00.000Z">
-<meta property="article:modified_time" content="2023-07-22T09:34:20.357Z">
+<meta property="article:modified_time" content="2023-07-25T06:18:47.685Z">
 <meta property="article:author" content="Kai">
 <meta property="article:tag" content="MongoDB">
 <meta property="article:tag" content="docker">
@@ -332,7 +332,7 @@
 <h4 id="验证副本集"><a href="#验证副本集" class="headerlink" title="验证副本集"></a>验证副本集</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 切换节点查看同步状态：</span><br>&gt; rs.printReplicationInfo()<br><span class="hljs-comment"># 仅当建立了集合后副节点才会进行同步</span><br></code></pre></td></tr></table></figure>
 
 <h3 id="连接-Mongo-副本集"><a href="#连接-Mongo-副本集" class="headerlink" title="连接 Mongo 副本集"></a>连接 <code>Mongo</code> 副本集</h3><p>副本集模式连接指的是把副本集看作一个整体，自动探测现在的主节点并进行连接的模式。这样能够做到，无论现在副本集哪个是主节点，客户端都可以连到正确的节点上，并且切换后不需要额外修改客户端的程序。同时，结合 <code>readPreference</code> 参数，能够做类似写操作在主库进行，读操作在从库进行的”读写分离“功能。</p>
-<h4 id="连接-url"><a href="#连接-url" class="headerlink" title="连接 url"></a>连接 url</h4><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">mongodb</span>://root:password@<span class="hljs-number">192.168.0.1</span>,<span class="hljs-number">192.168.0.1</span>/?replicaSet=rs0&amp;readPreference=secondaryPreferred<br></code></pre></td></tr></table></figure>
+<h4 id="连接-url"><a href="#连接-url" class="headerlink" title="连接 url"></a>连接 url</h4><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">mongodb</span>://root:password@<span class="hljs-number">192.168.0.1</span>,<span class="hljs-number">192.168.0.2</span>/?replicaSet=rs0&amp;readPreference=secondaryPreferred<br></code></pre></td></tr></table></figure>
 
 <p>其中，<code>replicaSet</code> 为副本集名称，<code>readPreference</code> 参数能够实现写操作在主库进行，读操作在从库进行的”读写分离“功能。 它有这么几个值：</p>
 <ul>
